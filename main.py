@@ -3,9 +3,11 @@ import re
 import random
 import dice
 import rollcall
-import chatbank
+# from replit import db
+from keep_alive import keep_alive
 
 TOKEN = input('Enter bot token.\n')
+TOKEN = re.findall('O.*c', TOKEN).pop()
 
 client = discord.Client()
 
@@ -103,4 +105,5 @@ async def on_raw_reaction_add(payload):
     if rollcall_message.author == client.user and re.findall('__\*\*Roll Call', rollcall_message.content):
         await rollcall.update_rollcall(client, payload)
 
+keep_alive()  # allows uptimerobot to keep the bot alive
 client.run(TOKEN)
