@@ -5,7 +5,9 @@ import discord
 
 
 async def new_rollcall(message):
-    """This function creates a new roll call."""
+    """"Botler, can I get a roll call for a [event_name] event on [month/day/year]?"
+    Botler creates a new roll call message, which he will edit with status updates as users react to the message. Can
+    also serve as a non-anonymous vote. """
     # confirm that the requester provided an event.
     try:
         # extract event from message
@@ -48,34 +50,39 @@ async def update_rollcall(client, payload):
     rollcall."""
     # gets the payload channel, then fetches the rollcall's Message object from it.
     rollcall_message = await client.get_channel(payload.channel_id).fetch_message(payload.message_id)
-    print(rollcall_message)
+    # print(rollcall_message)
 
     # TODO this is just a bandaid to fid the mysterious exclamation point appearing outside bot-tests for some reason.
     user = payload.member.mention
     user = user.replace('!', '')
     # retrieves the contents of the message, then creates a string with reacting account's emoji status updated.
-    if re.findall(f':.*:{user}', rollcall_message.content):
+    if re.findall(f'<:.*:\d+>{user}', rollcall_message.content):  # re.sub uses correct format for custom emojis
+        edited_rollcall_str = re.sub(f'<:.*:\d+>{user}',
+                                     f'{payload.emoji}{user}',
+                                     rollcall_message.content)
+    elif re.findall(f':.*:{user}', rollcall_message.content):  # re.sub uses correct format for discord emoji colons
         edited_rollcall_str = re.sub(f':.*:{user}',
                                      f'{payload.emoji}{user}',
                                      rollcall_message.content)
-        # print('found')
-    else:
+    elif re.findall(f'.{user}', rollcall_message.content):  # re.sub uses correct format for unicode emojis
         edited_rollcall_str = re.sub(f'.{user}',
                                      f'{payload.emoji}{user}',
                                      rollcall_message.content)
-        # print('notfound')
 
     # executes the edit on the rollcall message.
     await rollcall_message.edit(content=edited_rollcall_str)
-    print('end of update')
+    # print('updated rollcall')
     return
 
 
 # TODO only let trusted users create new events.
 # adds a discord user to a file containing a list of names
 async def add_to_rollcall_event(message_content=str, member=str):
+    """"Botler, add [user_id] to the [event_name] event."
+    Adds the user of the given user ID to the relevant event document. """
     # extract event from message
     event = re.findall('the .* event', message_content)
+    user
 
     # pop str out of list, and trim the "the" and "event" out of the event name.
     event = event.pop()

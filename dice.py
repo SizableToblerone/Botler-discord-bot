@@ -59,6 +59,10 @@ def string_stat_bonus(stat):
 
 
 def scaled_roll(user_message):
+    """"Botler, roll me 4d6, 5d8, and 2d4."
+    When Botler notices 'XdY' formats in the message, he will parse the message as a dice rolling command, where X is
+    the number of dice to roll, and Y the range of the dice. If the message contains multiple 'XdY' items, Botler will
+    roll them all. He will display all individual dice rolls, and then the total sum."""
     num_d_nums = re.findall('\d+d\d+', user_message)  # list of '\d+d\d+' items
     rolls_super_sum = 0  # sum of all rolls.
 

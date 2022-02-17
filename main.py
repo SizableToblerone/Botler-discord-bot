@@ -2,9 +2,10 @@ import discord
 import re
 import random
 import dice
+import mm
 import rollcall
 # from replit import db
-from keep_alive import keep_alive
+# from keep_alive import keep_alive
 
 TOKEN = input('Enter bot token.\n')
 TOKEN = re.findall('O.*c', TOKEN).pop()
@@ -18,8 +19,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    # cb = Chatbank()
-    # cb.store(message)
 
     if message.author == client.user:
         return
@@ -61,18 +60,23 @@ async def on_message(message):
                 file.write(f'\n{username}:\n {user_message}\n')
             await speak(f'I\'ll take that under advisement, sir. My thanks.')
 
+        # add a user to a roll call event
+        elif re.findall('add \d+ to the .* roll call', user_message):
+            await rollcall.add_to_rollcall_event(message.content, message.author.mention)  # test add me to list
+
         # create a new roll call
         elif heard('roll call') or heard('rollcall'):
-            # await rollcall.add_to_rollcall_event('DnD', f'{message.author.mention}\n')  # test add me to list
             await rollcall.new_rollcall(message)
-
-        # add a user to an event
-        elif re.findall('add me to the .* event', user_message):
-            await rollcall.add_to_rollcall_event(message.content, message.author.mention)  # test add me to list
 
         elif heard('d20'):
             roll = random.randint(1, 20)
             await speak(f'A {roll} / 20, sir.')
+
+        elif heard('do you think'):
+            await speak(mm.eightball(message))
+
+        elif heard('help') or heard('what can you do'):
+            await speak(mm.botler_help())
 
         elif heard('.*, Botler.'):
             await speak(f'Thank you sir.')
@@ -105,5 +109,5 @@ async def on_raw_reaction_add(payload):
     if rollcall_message.author == client.user and re.findall('__\*\*Roll Call', rollcall_message.content):
         await rollcall.update_rollcall(client, payload)
 
-keep_alive()  # allows uptimerobot to keep the bot alive
+# keep_alive()  # allows uptimerobot to keep the bot alive
 client.run(TOKEN)
