@@ -12,6 +12,7 @@ TOKEN = re.findall('O.*c', TOKEN).pop()
 
 client = discord.Client()
 
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -56,9 +57,10 @@ async def on_message(message):
 
         # add suggestion to suggestions.txt
         elif heard('should') and heard('add'):
-            with open('suggestions.txt', 'a') as file:
-                file.write(f'\n{username}:\n {user_message}\n')
-            await speak(f'I\'ll take that under advisement, sir. My thanks.')
+            # with open('suggestions.txt', 'a') as file:
+            #     file.write(f'\n{username}:\n {user_message}\n')
+            # await speak(f'I\'ll take that under advisement, sir. My thanks.')
+            await speak(await mm.suggestion(message))
 
         # add a user to a roll call event
         elif re.findall('add \d+ to the .* roll call', user_message):
@@ -73,7 +75,7 @@ async def on_message(message):
             await speak(f'A {roll} / 20, sir.')
 
         elif heard('do you think'):
-            await speak(mm.eightball(message))
+            await speak(await mm.eightball(message))
 
         elif heard('help') or heard('what can you do'):
             await speak(mm.botler_help())

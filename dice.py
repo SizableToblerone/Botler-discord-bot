@@ -15,6 +15,8 @@ botlerstats = {
 
 
 def roll_5e_stat():
+    """**INCOMPLETE** "Botler, roll me an ability score.":
+    Rolls 4d6, drops the lowest roll, and returns the sum of the other 3 dice."""
     rolls = [random.randint(1, 7), random.randint(1, 7), random.randint(1, 7), random.randint(1, 7)]
     rolls.sort()
     rolls.pop(0)
@@ -25,6 +27,8 @@ def roll_5e_stat():
 
 
 def roll_5e_char():
+    """ "Botler, roll me some stats.":
+    Rolls a 5e statblock."""
     strength = roll_5e_stat()
     dexterity = roll_5e_stat()
     constitution = roll_5e_stat()
@@ -40,6 +44,8 @@ def roll_5e_char():
 
 
 def botlers_stats():
+    """ "Botler, what are your stats?":
+    Botler displays his 5e ability scores."""
     strength = botlerstats['str']
     dexterity = botlerstats['dex']
     constitution = botlerstats['con']
@@ -59,8 +65,8 @@ def string_stat_bonus(stat):
 
 
 def scaled_roll(user_message):
-    """"Botler, roll me 4d6, 5d8, and 2d4."
-    When Botler notices 'XdY' formats in the message, he will parse the message as a dice rolling command, where X is
+    """ "Botler, roll me 4d6, 5d8, and 2d4.":
+    When Botler notices 'XdY' formats in a message, he will parse the message as a dice rolling command, where X is
     the number of dice to roll, and Y the range of the dice. If the message contains multiple 'XdY' items, Botler will
     roll them all. He will display all individual dice rolls, and then the total sum."""
     num_d_nums = re.findall('\d+d\d+', user_message)  # list of '\d+d\d+' items
