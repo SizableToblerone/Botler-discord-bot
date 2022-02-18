@@ -77,6 +77,9 @@ async def on_message(message):
         elif heard('do you think'):
             await speak(await mm.eightball(message))
 
+        elif heard('kill this fool'):
+            await speak(mm.kill_this_fool())
+
         elif heard('help') or heard('what can you do'):
             await speak(mm.botler_help())
 
