@@ -63,7 +63,7 @@ async def eightball(message):
         # 'The outlook is poor',
         'The numbers say no',
         'I\'ve my doubts',
-        'I think not'
+        'I think not',
         'Not particularly'
     )
     neutral_responses = (
@@ -75,8 +75,8 @@ async def eightball(message):
     )
 
     if conclusion:
-        return f'{affirmative_responses[random.randint(0, 9)]}, sir.'
-    return f'{negatory_responses[random.randint(0, 6)]}, sir.'
+        return f'{affirmative_responses[random.randint(0, 7)]}, sir.'
+    return f'{negatory_responses[random.randint(0, 5)]}, sir.'
 
 
 def kill_this_fool():
