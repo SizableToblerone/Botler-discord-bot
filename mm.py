@@ -2,6 +2,8 @@
 # just a separate file to tuck my methods into, so I don't have to pile them all up under main.
 import re
 import random
+import urllib
+
 import discord
 
 import dice
@@ -35,7 +37,7 @@ async def suggestion(message):
 
 
 async def eightball(message):
-    """"Botler, do you think [...]?"
+    """"Botler, do you think [...]?":
     **INCOMPLETE** Returns an affirmative or negative in response to a question."""
 
     # if message.content[-13:-1] == 'do you think' or message.content[-12:-1] == 'do you thin':
@@ -77,6 +79,19 @@ async def eightball(message):
     if conclusion:
         return f'{affirmative_responses[random.randint(0, 7)]}, sir.'
     return f'{negatory_responses[random.randint(0, 5)]}, sir.'
+
+
+def scryfall(message):
+    """ "Botler, scryfall [search terms]":
+    **INCOMPLETE** Searches the search terms on Scryfall, with buttons to let users iterate through the results."""
+
+    # extracts the search string from the message content.
+    search_extract = re.findall('scryfall .*', message.content).pop()
+    search_extract = search_extract[int(8), int(len(search_extract))]
+
+    searchURL = urllib.request.urlopen(f'https://scryfall.com/search?q={search_extract}'
+                                       f'&order=edhrec&as=grid&unique=cards')
+    print(searchURL)
 
 
 def kill_this_fool():

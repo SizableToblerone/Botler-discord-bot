@@ -18,7 +18,7 @@ async def new_rollcall(message):
         event = event[6:len(event) - 6]
     except:
         await message.channel.send('I need you to tell me the event this is for in your request, sir.'
-                                   '\n\"**...create an event [event name] (for) [date]**')
+                                   '\n\"**...can I get a **roll call/rollcall for a** [event_name] event on [month/day/year]?**')
 
     # check whether the requester provided a date.
     date = re.findall('\d+/\d+/\d+', str(message.content))

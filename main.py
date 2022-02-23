@@ -7,8 +7,12 @@ import rollcall
 # from replit import db
 # from keep_alive import keep_alive
 
-TOKEN = input('Enter bot token.\n')
-TOKEN = re.findall('O.*c', TOKEN).pop()
+# protects the token by storing it in a file that isn't published to the public GitHub.
+with open('token.txt', 'r') as file:
+    TOKEN = file.read()
+
+# TOKEN = input('Enter bot token.\n')
+# TOKEN = re.findall('O.*c', TOKEN).pop()
 
 client = discord.Client()
 
@@ -76,6 +80,9 @@ async def on_message(message):
 
         elif heard('do you think'):
             await speak(await mm.eightball(message))
+
+        elif heard('scryfall'):
+            await mm.scryfall(message)
 
         elif heard('kill this fool'):
             await speak(mm.kill_this_fool())
